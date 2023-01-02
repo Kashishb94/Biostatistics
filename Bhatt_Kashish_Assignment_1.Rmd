@@ -1,0 +1,495 @@
+---
+title: "Kashish Bhatt"
+author: Homework_2 
+output:
+  html_document:
+    df_print: paged
+date: "2022-10-06"
+---
+```{r}
+library(png)
+library(grid)
+```
+
+# Chapter 4:
+
+
+## Question Prompt:
+
+ The presence of bacteria in a urine sample (bacteriuria) is  sometimes associated with symptoms of kidney disease in  women. Suppose a determination of bacteriuria has been  made  over  a  large  population  of  women  at  one point  in  time and 5% of those sampled are positive for bacteriuria.  
+
+4.33 If a sample size of 5 is selected from this population,  what is the probability that 1 or more women are positive for  bacteriuria? 
+
+ So here we find the number of women that are negative or the probablity that none are positive:
+
+```{r}
+Pnorm=(1-0.05)^5;
+Pnorm
+
+```
+the Pnorm gave us the probablity of women that are not positive then we substract the number from 1 again, which represents the over all population to get this: 
+```{r}
+Ppositive= 1-Pnorm;
+Ppositive;
+```
+## Binomial Distribution:
+ 
+Another way to do this is through Binomail distribution. We know this is binomial because the outcomes are either positive or negative. The formula for binomial distribution is:
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("/Users/kashish/Desktop/Biostats_assignment/pictures/binomial_formula.png");
+```
+
+
+
+Where:
+
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("/Users/kashish/Desktop/Biostats_assignment/pictures/Screen Shot 2022-10-11 at 1.59.06 PM.png");
+```
+
+
+
+So remember:
+n = is the number of trials 
+k = is the number of successful events
+p^k = is the probability of a successful event 
+q^n-k = is the probability of unsuccessful events 
+
+
+Since they are factorial that means we must multiply all numbers preceeding it untill it gets to one.
+
+<p style="color:blue"> So using this formula we get: </p>
+
+
+
+```{r}
+#z = 5!/0!(5-0)! => 5*4*3*2*1/(5*4*3*2*1 - 1) 1 
+z =5*4*3*2*1/(5*4*3*2*1 - 1)*1;
+z
+```
+```{r cars}
+#P(X>1) = 1 - (1.00)(0.05)^0(1-0.05)^5-0
+np = (1.00)*(0.05)^0*(1-0.05)^5-0
+np
+```
+
+
+
+This gives the non positive probability, then using this we would do this to get positive: 
+
+
+```{r}
+#P(X>1) = 1 - (1.00)(0.05)^0(1-0.05)^5-0
+pp = 1-0.7737
+pp
+```
+
+4.34 Suppose 100 women from this population are sampled.  What  is  the  probability  that  3  or  more  of  them  are  positive for bacteriuria?
+
+
+Since this requires the factorial of 100 we will use code for a while to get the factorials:
+```{r}
+a = choose(100,0)
+p_1= a*(0.05)^0*(1-0.05)^100
+b = choose(100,1)
+p_2 = b*(0.05)^1*(1-0.05)^99
+c = choose(100,2)
+p_3 = c*(0.05)^2*(1-0.05)^98
+
+p= p_1 + p_2 + p_3
+p
+
+prob = 1-p 
+prob
+
+```
+
+The probability that 3 or more women are positive is 0.882
+
+
+
+## Question Prompt:
+
+<span style="color: blue;">One  interesting  phenomenon  of  bacteriuria  is  that  there  is  a “turnover”; that is, if bacteriuria is measured on the same  woman  at  two  different  points  in  time,  the  results  are  not  necessarily the same. Assume that 20% of all women who  are  bacteriuric  at  time  0  are  again  bacteriuric  at  time  1  (1  year  later),  whereas  only  4.2%  of  women  who  were  not  bacteriuric  at  time  0  are bacteriuric  at  time  1.  Let  X be  the  random  variable  representing  the  number  of  bacteriuric  events  over  the  two  time  periods  for  1  woman  and  still  as- sume  that  the  probability  that  a  woman  will  be  positive  for  bacteriuria at any one exam is 5%.</span>
+
+ 4.35 What is the probability distribution of X? 
+
+Here we would use the Poison Distribution Mass function, which is bassically a function that gives the probability of observing K events in a time period given the length of the period and the average events per time. 
+
+So here we are told: 
+1. Assumption that about 0.2 percent of the women who are bacteriuric at the time 0 are bacteriuric after 1 year. 
+2. 4.2% of the women who were not bacteriuric at time 0 are bateruirc at time 1. 
+3. X is the random variable representing the number of bacteruiric events over two time periods for 1 woman
+4. assume the probability that a woman will be positive for bateriuria at any one exam is 0.05
+
+So the poision probability mass function is: 
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("/Users/kashish/Desktop/Biostats_assignment/pictures/Screen Shot 2022-10-11 at 5.27.58 PM.png");
+```
+
+Using this formula we first compute the value for lambda:
+lambda = n(p)
+where: 
+n = number of time periods
+p = probability that the woman will be positive
+
+
+```{r}
+lambda = (2)*(0.05)
+lambda
+```
+
+
+Now we compute the probability which is: 
+P(X=0) = e^lambda(lamda)^(x)/(x)!
+first we will do P(x=)
+
+```{r}
+fact=factorial(0)
+fact
+prob0= (10^-0.01)*(0.1)^0/fact
+prob0
+```
+
+Now we do it for 
+P(X=1) = e^lambda(lamda)^(x)/(x)!
+first we will do P(x=)
+
+```{r}
+fact=factorial(1)
+fact
+prob1= (10^-0.01)*(0.1)^1/fact
+prob1
+```
+
+Now we do it for 
+P(X=1) = e^lambda(lamda)^(x)/(x)!
+first we will do P(x=)
+
+```{r}
+fact=factorial(2)
+fact
+prob2= (10^-0.01)*(0.1)^2/fact
+prob2
+```
+
+So the probability distribution for X would be:
+
+```{r}
+data= matrix(c('0.977','0.0977','0.00489'),ncol=3,byrow=TRUE)
+colnames(data) = c('(0)','(1)','(2)')
+rownames(data) <- c('Outcome')
+data=as.table(data)
+data
+```
+
+4.36 What is the mean of X?
+remember that X is a probability distribution of a random variable, so to calculate the mean and the variable of X we need to calculate the probability distribution of it: 
+
+```{r}
+mean_x = (0*0.977)+(1*0.0977)+(2*0.00489)
+mean_x
+```
+
+4.37 What is the variance of X?
+
+Variance formula: 
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("/Users/kashish/Desktop/Biostats_assignment/pictures/Screen Shot 2022-10-11 at 9.45.50 PM.png");
+```
+
+
+
+```{r}
+Var_x=(0-0.107)^2*(0.977)+(1-0.106)^2*(0.0977)+(2-0.1)^2*(0.00489)
+Var_x
+```
+
+
+## Question Prompt: 
+<span style="color: blue;"> Otitis  media  is  a  disease  that  occurs  frequently  in  the  first  few  years  of  life  and  is  one  of  the  most  common  reasons  for  physician  visits  after  the  routine  checkup.  A  study  was  conducted  to  assess  the  frequency  of  otitis  media  in  the  general  population  in  the  first  year  of  life.  Table  4.16  gives  the number of infants of 2500 infants who were first seen at  birth who remained disease-free by the end of the ith month  of life, i = 0, 1, . . . , 12. (Assume no infants have been lost  to follow-up.)</span>
+
+4.38 What is the probability that an infant will have one or  more episodes of otitis media by the end of the sixth month  of life? The first year of life?
+
+Here is the data:
+
+```{r, echo=FALSE}
+Ottis_media = read.csv('/Users/kashish/Documents/Ottis_media.csv')
+Ottis_media
+```
+
+The question asks to find the probability that the infant will have one or more episode at the end of the 6 months. So to do that we look at the table. It is given that 2500 infants started out without the disease, and by the 6th month its 1875 infants without the disease. So the difference is how many episode of ottis we have by the end of six months: 
+
+```{r}
+start= 2500
+six_month =1875
+diff = start-six_month
+diff
+```
+
+Now using that value we can get the probability that an infant will have this disease:
+
+```{r}
+p=diff/start
+p
+```
+
+At the end of the year?
+
+Start is still 2500
+1 year value is 1200	
+
+```{r}
+one_year = 1200
+diff = start-one_year
+diff
+```
+```{r}
+p=diff/start
+p
+```
+
+
+4.39 What is the probability that an infant will have one or  more episodes of otitis media by the end of the ninth month  of  life  given  that  no  episodes  have  been  observed  by  the  end of the third month of life?
+
+```{r}
+start = 2300
+nine_month = 1300
+diff = start-nine_month
+diff
+```
+
+```{r}
+p=diff/start
+p
+```
+
+4.40 Suppose an “otitis-prone family” is defined as one  in  which  at least  three  siblings  of  five  develop  otitis  media  in  the  first  6  months  of  life. 
+
+ <li> So 3/5 siblings is the definition of “otitis-prone family” </li>
+
+What  proportion  of  five-sibling  families is otitis prone if we assume the disease occurs in- dependently for different siblings in a family?
+
+P(X) >= 3 is our assumption here. So what we know: 
+
+ <li> start = 2500 disease free </li>
+  <li> six-month = 1875 disease free </li>
+  
+```{r}
+start= 2500
+six_month =1875
+diff = start-six_month
+p=diff/start
+p
+```
+
+Now that we have the probability after 6 months, we can use binomial distribution to get the answer: 
+
+
+Getting the factorials: 
+
+1. n=5 and k=3 
+    5!/(5-3)!(3)!
+```{r}
+x =  5*4*3/6
+x
+a=x*(0.25)^3*0.75^2 
+a
+```
+   
+2. n=5 and k=4 
+    5!/(5-4)!(4)!
+```{r}
+y=5*4*3*2*1/(4*3*2*1)
+y
+b= y*(0.25)^4*0.75^1
+b
+```    
+
+3
+```{r}
+y=5*4*3*2*1/(5*4*3*2*1)
+y
+c= y*(0.25)^4*0.75^1
+c
+```    
+
+
+```{r}
+
+prob = a+b+c
+prob
+```
+
+So the probability is 0.105. 
+
+4.41 What is the expected number of otitis-prone families  of 100 five-sibling families?
+
+So remember p = 0.25 from the 6 month period of infants who have the disease and the 0.75 for those that don't because 1-0.25 = 0.75. 
+
+And we know that the probability of ottis prone family for siblings is 0.105. We can use that to cacluate the 100 families by using the expectation of the binomial random variable 
+
+```{r}
+n = 100
+p = 0.105
+E = n*p
+E
+```
+
+So the expectation is around 10 or 11 if we round up. 
+
+
+# Chapter 5: 
+
+
+## Question Prompt:
+
+Suppose  we  observe  84  alcoholics  with  cirrhosis  of  the  liver,
+of  whom  29  have  hepatomas—that  is,  liver-cell  carci- noma. Suppose we know, based on a large sample, that the  risk  of  hepatoma
+among  alcoholics  without  cirrhosis  of  the  liver is 24%.
+
+5.50 What is the probability that we observe exactly 29  alcoholics with cirrhosis of the liver who have hepatomas if  the true rate of hepatoma among alcoholics (with or without  cirrhosis of the liver) is .24?
+
+What we know: 
+ <li> 84 alcoholics </li>
+ <li> 29 out of 84 have hepatomas </li>
+ <li> alcholics with cirrhosis have a 24% risk </li>
+ 
+n = 84 - number of alcoholics 
+x = 29  - alcoholics given that have hepatoma
+That means 1-0.24= 0.76 don't have it 
+
+```{r}
+a = choose(84,29)
+prob = a*(0.24)^29*(0.76)^55
+prob
+```
+
+5.51 What is the probability of observing at least 29 hepa- tomas  among  the  84  alcoholics  with  cirrhosis  of  the  liver  under the assumptions in Problem 5.50?
+
+Here the equation is half done, bassically its: 
+
+P(x) = ( 84 )(0.24)^x(0.76)^84-x
+       (  x )
+Bassically we don't have the x value, so we use 1-pbinomial(28,84,0.24)
+where 28 is the unknown, 84 is n, and 0.24 is the probability
+```{r}
+a= 1-pbinom(28,84,0.24)
+a
+```
+
+5.52 What is the smallest number of hepatomas that would  have to be observed among the alcoholics with cirrhosis of  the liver for the hepatoma experience in this group to differ  from  the  hepatoma  experience  among  alcoholics  without  cirrhosis of the liver? (Hint: Use a 5% probability of getting  a  result  at  least  as  extreme  to  denote  differences  between  the hepatoma experiences of the two groups.)
+
+First we calculate the number of hepatomas in the alcoholic population with cirrhosis of the liver at 5%. 
+P(X>=x) = 0.05
+P(X>=x) = 1-0.05 = 0.95
+
+So here we will calculate the mean and the standard deviation: 
+```{r}
+n = 84
+p = 0.24
+mean = n*p
+std = sqrt((n*p)*(1-p))
+std
+```
+
+Now we can use the normal approximation of the binomial distribution to calculate hepatoma in alcoholics without cirrhosis of the liver at 5%.
+P(X-mean/std =< x-20.16/3.9143) = 0.95
+
+here we use the z score of 95% to get 1.96
+x-20.16/3.9143 = 1.96 
+(3.9143)*(1.96)= x-20.16
+x = (3.9143)*(1.96)+20.16
+```{r}
+x = (3.9143)*(1.96)+20.16
+x
+```
+
+<span style="color: blue;"> Obesity  is  an  important  determinant  of  cardiovascular  dis- ease because it directly affects several established cardio- vascular  risk  factors,  including  hypertension  and  diabetes.  It  is  estimated  that  the  average  weight  for  an  18-year-old  woman  is  123  lbs.  and  increases  to  142  lbs.  at  50  years of  age.  Also,  let  us  assume  that  the  average  SBP  for  a  50-year-old woman is 125 mm Hg, with a standard deviation  of 15 mm Hg, and that SBP is normally distributed.</span>
+
+
+
+5.71 What  proportion  of  50-year-old  women  is  hyperten- sive, if hypertension is defined as SBP ≥ 140 mm Hg?
+
+random variable X is here will be the systolic blood pressure of a 50 year old woman.
+
+mean of systolic blood pressure: 125 mmHg 
+std: 15 mmhg 
+
+P(X>=140)=1-P(X=<140)
+P(X>=140)= 1- (X-mean/std)
+P(X>=140)= 1-((140-125)/(15))
+
+((140-125)/(15)) = 1
+
+normal distribution of 1 (from table) = 0.8413
+
+
+```{r}
+y = 0.8413
+X_greater = 1-y
+X_greater
+```
+
+The propotion of 50 year old women is hypertensive is 0.1587.
+
+
+
+From  previous  clinical  trials,  it  is  estimated  that  for  every 10 lbs. of weight loss there is, on average, a corresponding  reduction in mean SBP of 3 mm Hg.
+
+5.72 Suppose an average woman did not gain any weight  from  age  18  to  50.  What  average  SBP  for  50-year-old  women would be expected under these assumptions?
+
+So for every 10 lbs weight loss = reduction of 3 mmHg in Systolic Blood pressure
+
+mean for 50 year old women = 125 mmhg
+std for 50 year old woman = 15 mmhg
+So weight not gained from 18-50: 
+
+```{r}
+x = (142-123)/10
+x
+Est= 125-(x)*3
+Est
+```
+
+The answer is 119.3 mmhg 
+
+5.73 If the standard deviation of SBP under the assumption  in  Problem  5.72  remained  the  same  (15  mm  Hg),  and  the  distribution  of  SBP  remained  normal,  then  what  would  be  the  expected  proportion  of  hypertensive  women  under  the  assumption in Problem 5.72?
+
+So using the answer from previous question:
+P(systolic >= 140) = P(Systolic Blood Pressure - Estimated Systolic/Std >= 140 -119.3/15)
+this becomes: 
+P(z>=1.38)
+1-P(z>=1.38)
+Z score of 1.38 is 0.9162
+
+```{r}
+expected = 1- 0.9162
+expected
+
+```
+
+Expected proportion is 0.0838. 
+
+5.74 What percentage of hypertension at age 50 is attributable to the weight gain from age 18 to 50?
+
+P(123 =< Systolic Blood Pressure =< 142) = P(123 - 125/Std(systolic) =< systolic - 125/Std(systolic) =< 142 - Est(systolic)/Std(systolic))
+
+P(125-125/15 =< z =< 142-125/15)
+
+P(-0.1333 =< z =< 1.133)
+
+which becomes: 
+
+```{r}
+P= (0.872 - 0.447)*100
+P
+```
